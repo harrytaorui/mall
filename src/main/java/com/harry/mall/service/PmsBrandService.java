@@ -11,7 +11,7 @@ public interface PmsBrandService {
 
     int updateBrand(long id, PmsBrand brand);
 
-    int deleteBrand(PmsBrand brand);
+    int deleteBrand(long id);
 
     List<PmsBrand> listBrand(int pageNumber, int pageSize);
 

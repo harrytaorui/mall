@@ -1,5 +1,6 @@
 package com.harry.mall.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.harry.mall.mbg.mapper.PmsBrandMapper;
 import com.harry.mall.mbg.model.PmsBrand;
 import com.harry.mall.mbg.model.PmsBrandExample;
@@ -24,26 +25,28 @@ public class PmsBrandServiceImpl implements PmsBrandService {
 
     @Override
     public int createBrand(PmsBrand brand) {
-        return 0;
+        return brandMapper.insertSelective(brand);
     }
 
     @Override
     public int updateBrand(long id, PmsBrand brand) {
-        return 0;
+        brand.setId(id);
+        return brandMapper.updateByPrimaryKeySelective(brand);
     }
 
     @Override
-    public int deleteBrand(PmsBrand brand) {
-        return 0;
+    public int deleteBrand(long id) {
+        return brandMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public List<PmsBrand> listBrand(int pageNumber, int pageSize) {
-        return null;
+        PageHelper.startPage(pageNumber, pageSize);
+        return brandMapper.selectByExample(new PmsBrandExample());
     }
 
     @Override
     public PmsBrand getBrand(long id) {
-        return null;
+        return brandMapper.selectByPrimaryKey(id);
     }
 }
