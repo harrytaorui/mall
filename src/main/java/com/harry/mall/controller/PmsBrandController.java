@@ -5,6 +5,8 @@ import com.harry.mall.common.CommonPage;
 import com.harry.mall.common.CommonResult;
 import com.harry.mall.mbg.model.PmsBrand;
 import com.harry.mall.service.PmsBrandService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Api(tags = "PmsBrandController", value = "brand management")
 @RestController
 @RequestMapping(value = "/brands")
 public class PmsBrandController {
@@ -24,11 +27,13 @@ public class PmsBrandController {
         this.brandService = brandService;
     }
 
+    @ApiOperation("get all brands")
     @GetMapping
     public CommonResult<List<PmsBrand>> getBrandList() {
         return CommonResult.success(brandService.listAllBrand());
     }
 
+    @ApiOperation("get paginated brands")
     @GetMapping
     public CommonResult<CommonPage<PmsBrand>> listBrand(@RequestParam(value = "pageNumber") Integer pageNumber,
                                                         @RequestParam(value = "pageSize") Integer pageSize) {
@@ -36,11 +41,13 @@ public class PmsBrandController {
         return CommonResult.success(CommonPage.restPage(brandList));
     }
 
+    @ApiOperation("get specific brand with id")
     @GetMapping("/{id}")
     public CommonResult<PmsBrand> getBrand(@PathVariable("id")long id) {
         return CommonResult.success(brandService.getBrand(id));
     }
 
+    @ApiOperation("create a new brand")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CommonResult createBrand(@RequestBody PmsBrand pmsBrand) {
@@ -54,6 +61,7 @@ public class PmsBrandController {
         }
     }
 
+    @ApiOperation("update a specific brand")
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public CommonResult updateBrand(@PathVariable Long id, @RequestBody PmsBrand pmsBrand) {
@@ -67,6 +75,7 @@ public class PmsBrandController {
         }
     }
 
+    @ApiOperation("delete a specific brand")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public CommonResult deleteBrand(@PathVariable Long id) throws ResponseStatusException {
