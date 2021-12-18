@@ -4,19 +4,30 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommonResult<T> {
-    private long code;
+    private String code;
     private String message;
     private T data;
 
     public static <T> CommonResult<T> success(T data) {
         return new CommonResult<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data);
+    }
+
+    public  static <T> CommonResult<T> success(String message, T data) {
+        return new CommonResult<T>(ResultCode.SUCCESS.getCode(), message, data);
+    }
+
+    public static <T> CommonResult<T> failed(String errorCode, String message, T data) {
+        return new CommonResult<T>(errorCode, message, data);
+    }
+
+    public static <T> CommonResult<T> failed(String errorCode, String message) {
+        return failed(errorCode, message, null);
     }
 
     public static <T> CommonResult<T> failed(ErrorCode errorCode) {

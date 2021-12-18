@@ -1,8 +1,6 @@
 package com.harry.mall.controller;
 
-import com.harry.mall.common.CommonLog;
-import com.harry.mall.common.CommonPage;
-import com.harry.mall.common.CommonResult;
+import com.harry.mall.common.*;
 import com.harry.mall.mbg.model.PmsBrand;
 import com.harry.mall.service.PmsBrandService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,7 +56,7 @@ public class PmsBrandController {
             return CommonResult.success(pmsBrand);
         } else {
             logger.error(CommonLog.builder().event("pmsBrandCreateFailed"));
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "createBrandFailed");
+            throw new CommonException(ResultCode.CREATE_FAILED.getCode(), "createBrandFailed");
         }
     }
 
@@ -72,7 +70,7 @@ public class PmsBrandController {
             return CommonResult.success(pmsBrand);
         } else {
             logger.debug(CommonLog.builder().event("pmsBrandUpdateFailed"));
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "updateBrandFailed");
+            throw new CommonException(ResultCode.UPDATE_FAILED.getCode(), "updateBrandFailed");
         }
     }
 
@@ -82,11 +80,11 @@ public class PmsBrandController {
     public CommonResult deleteBrand(@PathVariable Long id) throws ResponseStatusException {
         int count = brandService.deleteBrand(id);
         if (count == 1) {
-            logger.debug(CommonLog.builder().event("pmsBrandUpdated"));
+            logger.debug(CommonLog.builder().event("pmsBrandDeleted"));
             return CommonResult.success(null);
         } else {
-            logger.debug(CommonLog.builder().event("pmsBrandUpdateFailed"));
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "pmsBrandUpdateFailed");
+            logger.debug(CommonLog.builder().event("pmsBrandDeleteFailed"));
+            throw new CommonException(ResultCode.DELETE_FAILED.getCode(), "pmsBrandDeleteFailed");
         }
     }
 

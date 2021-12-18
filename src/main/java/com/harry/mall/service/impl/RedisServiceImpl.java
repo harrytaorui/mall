@@ -2,11 +2,12 @@ package com.harry.mall.service.impl;
 
 import com.harry.mall.service.RedisService;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class RedisServiceImpl implements RedisService {
-
 
     private final StringRedisTemplate stringRedisTemplate;
 
