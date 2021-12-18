@@ -11,3 +11,6 @@ mybatis:
   mapper-locations:
     - classpath:mapper/*.xml
     - classpath*:com/**/mapper/*.xml
+
+springdoc:
+  packages-to-scan: com.harry.mall

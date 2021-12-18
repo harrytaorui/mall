@@ -18,7 +18,7 @@ import java.util.Properties;
  */
 public class CommentGenerator extends DefaultCommentGenerator {
     private boolean addRemarkComments = false;
-    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME = "io.swagger.annotations.ApiModelProperty";
+    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME = "io.swagger.v3.oas.annotations.media.Schema";
     private static final String EXAMPLE_SUFFIX = "Example";
     /**
      * 设置用户配置的参数
@@ -42,7 +42,7 @@ public class CommentGenerator extends DefaultCommentGenerator {
             if (remarks.contains("\"")) {
                 remarks = remarks.replace("\"", "'");
             }
-            field.addJavaDocLine("@ApiModelProperty(value = \""+remarks + "\")");
+            field.addJavaDocLine("@Schema(description = \""+remarks + "\")");
         }
     }
 
