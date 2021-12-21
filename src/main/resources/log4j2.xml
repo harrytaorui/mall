@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+################################################################################################################
+	For information on how to change this configuration file,
+	refer to https://logging.apache.org/log4j/2.x/manual/configuration.html
+
+	To enable masking of sensitive data, replace `%m` with `%maskedMessage` in the patterns below
+################################################################################################################
+-->
+
+<Configuration status="DEBUG">
+    <Properties>
+        <Property name="log-path">./logs</Property>
+        <Property name="logFileName">mall</Property>
+    </Properties>
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <RollingFile name="RollingFile"
+                     fileName="${log-path}/${logFileName}.log"
+                     filePattern="${log-path}/${logFileName}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout>
+                <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="4"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.harry.mall" level="debug" additivity="true">
+            <AppenderRef ref="LogToConsole" level="debug" />
+        </Logger>
+        <Root level="fatal" additivity="true">
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>

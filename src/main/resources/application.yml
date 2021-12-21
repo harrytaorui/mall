@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  main:
+    allow-circular-references: true
   datasource:
     url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
@@ -23,9 +25,13 @@ mybatis:
   mapper-locations:
     - classpath:mapper/*.xml
     - classpath*:com/**/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
 
 springdoc:
-  packages-to-scan: com.harry.mall
+  packages-to-scan: com.harry.mall.controller
+  securityScheme:
+    name: bearerAuth
 
 redis:
   key:
@@ -33,3 +39,9 @@ redis:
       authCode: "portal:authCode"
     expire:
       authCode: 120
+
+jwt:
+  tokenHeader: Authorization
+  secret: mySecret
+  expiration: 604800
+  tokenHead: Bearer

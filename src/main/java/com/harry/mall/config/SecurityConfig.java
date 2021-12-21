@@ -8,6 +8,7 @@ import com.harry.mall.dto.AdminUserDetails;
 import com.harry.mall.mbg.model.UmsAdmin;
 import com.harry.mall.mbg.model.UmsPermission;
 import com.harry.mall.service.UmsAdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,18 +31,16 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  private final UmsAdminService adminService;
+  @Autowired
+  private UmsAdminService umsAdminService;
   private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
   private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
   private final JwtTokenUtil jwtTokenUtil;
 
   public SecurityConfig(
-      UmsAdminService adminService,
       RestfulAccessDeniedHandler restfulAccessDeniedHandler,
       RestAuthenticationEntryPoint restAuthenticationEntryPoint,
-      UserDetailsService userDetailsService,
       JwtTokenUtil jwtTokenUtil) {
-    this.adminService = adminService;
     this.restfulAccessDeniedHandler = restfulAccessDeniedHandler;
     this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
     this.jwtTokenUtil = jwtTokenUtil;
@@ -65,13 +64,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/**/*.css",
             "/**/*.js",
             "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
             "/v3/api-docs/**")
         .permitAll()
         .antMatchers("/admin/login", "/admin/register")
         .permitAll()
         .antMatchers(HttpMethod.OPTIONS)
-        .permitAll()
-        .antMatchers("/**")
         .permitAll()
         .anyRequest()
         .authenticated();
@@ -101,9 +100,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public UserDetailsService userDetailsService() {
     return username -> {
-      UmsAdmin admin = adminService.getAdminByUserName(username);
+      UmsAdmin admin = umsAdminService.getAdminByUserName(username);
       if (admin != null) {
-        List<UmsPermission> permissionList = adminService.getPermissionList(admin.getId());
+        List<UmsPermission> permissionList = umsAdminService.getPermissionList(admin.getId());
         return new AdminUserDetails(admin, permissionList);
       }
       throw new UsernameNotFoundException("Username or password incorrect");

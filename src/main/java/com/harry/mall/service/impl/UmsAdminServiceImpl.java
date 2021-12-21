@@ -11,6 +11,7 @@ import com.harry.mall.service.UmsAdminService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +38,8 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
   private final UmsAdminMapper adminMapper;
 
-  private final UserDetailsService userDetailsService;
+  @Autowired
+  private UserDetailsService userDetailsService;
 
   @Value("${jwt.tokenHead}")
   private String tokenHead;
@@ -46,13 +48,11 @@ public class UmsAdminServiceImpl implements UmsAdminService {
       JwtTokenUtil jwtTokenUtil,
       PasswordEncoder passwordEncoder,
       UmsAdminRoleRelationDao adminRoleRelationDao,
-      UmsAdminMapper adminMapper,
-      UserDetailsService userDetailsService) {
+      UmsAdminMapper adminMapper) {
     this.jwtTokenUtil = jwtTokenUtil;
     this.passwordEncoder = passwordEncoder;
     this.adminRoleRelationDao = adminRoleRelationDao;
     this.adminMapper = adminMapper;
-    this.userDetailsService = userDetailsService;
   }
 
   @Override

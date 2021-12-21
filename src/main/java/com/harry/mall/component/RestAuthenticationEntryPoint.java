@@ -13,17 +13,21 @@ import java.io.IOException;
 
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    private final ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
-    public RestAuthenticationEntryPoint(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+  public RestAuthenticationEntryPoint(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException, ServletException {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
-        response.getWriter().println(objectMapper.writeValueAsString(CommonResult.unauthorized(ex.getMessage())));
-        response.getWriter().flush();
-    }
+  @Override
+  public void commence(
+      HttpServletRequest request, HttpServletResponse response, AuthenticationException ex)
+      throws IOException, ServletException {
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("application/json");
+    response
+        .getWriter()
+        .println(objectMapper.writeValueAsString(CommonResult.unauthorized(ex.getMessage())));
+    response.getWriter().flush();
+  }
 }
