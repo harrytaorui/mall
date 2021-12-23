@@ -20,6 +20,10 @@ spring:
         max-ide: 8
         min-ide: 0
     timeout: 3000ms
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/
+      database: mall-port
 
 mybatis:
   mapper-locations:
@@ -52,3 +56,8 @@ data:
       enabled: true
     cluster-nodes: 127.0.0.1:9300
     cluster-name: elasticsearch
+
+mongodb:
+  host: localhost
+  port: 27017
+  database: mall-port

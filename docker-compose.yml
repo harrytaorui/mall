@@ -3,7 +3,7 @@ version: '3.9'
 services:
   mysql:
     image: mysql:latest
-    container_name: mall-mysql
+    container_name: mall-db
     ports:
       - "3306:3306"
     volumes:
@@ -18,7 +18,7 @@ services:
     volumes:
       - ./data:/data
   elasticsearch:
-    container_name: mall-elasticsearch
+    container_name: mall-product-elasticsearch
     build:
       context: elasticsearch/
     environment:
@@ -42,6 +42,7 @@ services:
       - elasticsearch
   logstash:
     image: elastic/logstash:7.16.2
+    container_name: mall-elasticsearch-log
     ports:
       - "5044:5044"
       - "5000:5000"
@@ -51,6 +52,20 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+  mongodb:
+    image: mongo:latest
+    container_name: mall-products-db
+    environment:
+      MONGO_INITDB_DATABASE: mall-port
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017-27019:27017-27019"
+    volumes:
+      - mongodata:/data/db
+      - ./logs/mongo/log:/var/log/mongodb
+    restart: always
 
 volumes:
   elasticsearch:
+  mongodata:
