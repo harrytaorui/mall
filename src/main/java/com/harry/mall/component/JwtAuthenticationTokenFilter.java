@@ -45,7 +45,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
       String authToken = authHeader.substring(this.tokenHead.length());
       String username = jwtTokenUtil.getUserNameFromToken(authToken);
-      logger.debug(CommonLog.builder().event("checking Username").data(username));
+      logger.debug(CommonLog.builder().event("checking Username").data(username).build());
       if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         UserDetails userdetails = this.userDetailsService.loadUserByUsername(username);
         if (jwtTokenUtil.validateToken(authToken, userdetails)) {
@@ -54,7 +54,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                   userdetails, null, userdetails.getAuthorities());
           authenticationToken.setDetails(
               new WebAuthenticationDetailsSource().buildDetails(request));
-          logger.debug(CommonLog.builder().event("user authenticated").data(userdetails));
+          logger.debug(CommonLog.builder().event("user authenticated").data(userdetails).build());
           SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
       }

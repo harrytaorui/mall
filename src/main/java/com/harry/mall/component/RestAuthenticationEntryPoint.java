@@ -1,7 +1,7 @@
 package com.harry.mall.component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.harry.mall.common.CommonResult;
+import com.harry.mall.common.utils.JsonHelper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -13,11 +13,6 @@ import java.io.IOException;
 
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
-  private final ObjectMapper objectMapper;
-
-  public RestAuthenticationEntryPoint(ObjectMapper objectMapper) {
-    this.objectMapper = objectMapper;
-  }
 
   @Override
   public void commence(
@@ -25,9 +20,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
       throws IOException, ServletException {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
-    response
-        .getWriter()
-        .println(objectMapper.writeValueAsString(CommonResult.unauthorized(ex.getMessage())));
+    response.getWriter().println(JsonHelper.parse(CommonResult.unauthorized(ex.getMessage())));
     response.getWriter().flush();
   }
 }

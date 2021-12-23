@@ -8,10 +8,12 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Arrays;
 
 @Configuration
+@EnableScheduling
 public class SpringDocConfig {
 
   @Value("${springdoc.securityScheme.name}")

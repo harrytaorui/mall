@@ -5,18 +5,16 @@ import com.harry.mall.mbg.mapper.PmsBrandMapper;
 import com.harry.mall.mbg.model.PmsBrand;
 import com.harry.mall.mbg.model.PmsBrandExample;
 import com.harry.mall.service.PmsBrandService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PmsBrandServiceImpl implements PmsBrandService {
 
     private final PmsBrandMapper brandMapper;
-
-    public PmsBrandServiceImpl(PmsBrandMapper brandMapper) {
-        this.brandMapper = brandMapper;
-    }
 
     @Override
     public List<PmsBrand> listAllBrand() {

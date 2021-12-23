@@ -57,10 +57,10 @@ public class PmsBrandController {
     public CommonResult createBrand(@RequestBody PmsBrand pmsBrand) {
         int count = brandService.createBrand(pmsBrand);
         if (count == 1) {
-            logger.debug(CommonLog.builder().event("pmsBrandCreated"));
+            logger.debug(CommonLog.builder().event("pmsBrandCreated").build());
             return CommonResult.success(pmsBrand);
         } else {
-            logger.debug(CommonLog.builder().event("pmsBrandCreateFailed"));
+            logger.debug(CommonLog.builder().event("pmsBrandCreateFailed").build());
             throw new CommonException(ResultCode.CREATE_FAILED.getCode(), "createBrandFailed");
         }
     }
@@ -72,10 +72,10 @@ public class PmsBrandController {
     public CommonResult updateBrand(@PathVariable Long id, @RequestBody PmsBrand pmsBrand) {
         int count = brandService.updateBrand(id, pmsBrand);
         if (count == 1) {
-            logger.debug(CommonLog.builder().event("pmsBrandUpdated"));
+            logger.debug(CommonLog.builder().event("pmsBrandUpdated").build());
             return CommonResult.success(pmsBrand);
         } else {
-            logger.debug(CommonLog.builder().event("pmsBrandUpdateFailed"));
+            logger.debug(CommonLog.builder().event("pmsBrandUpdateFailed").build());
             throw new CommonException(ResultCode.UPDATE_FAILED.getCode(), "updateBrandFailed");
         }
     }
@@ -87,10 +87,10 @@ public class PmsBrandController {
     public CommonResult deleteBrand(@PathVariable Long id) throws ResponseStatusException {
         int count = brandService.deleteBrand(id);
         if (count == 1) {
-            logger.debug(CommonLog.builder().event("pmsBrandDeleted"));
+            logger.debug(CommonLog.builder().event("pmsBrandDeleted").build());
             return CommonResult.success(null);
         } else {
-            logger.debug(CommonLog.builder().event("pmsBrandDeleteFailed"));
+            logger.debug(CommonLog.builder().event("pmsBrandDeleteFailed").build());
             throw new CommonException(ResultCode.DELETE_FAILED.getCode(), "pmsBrandDeleteFailed");
         }
     }

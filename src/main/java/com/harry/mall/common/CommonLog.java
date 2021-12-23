@@ -11,4 +11,9 @@ public class CommonLog<T> {
 
     private String event;
     private T data;
+
+    @Override
+    public String toString() {
+        return "Event: " + event + ", Data: " + data;
+    }
 }

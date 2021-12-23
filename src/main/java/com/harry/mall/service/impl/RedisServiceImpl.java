@@ -1,19 +1,17 @@
 package com.harry.mall.service.impl;
 
 import com.harry.mall.service.RedisService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class RedisServiceImpl implements RedisService {
 
     private final StringRedisTemplate stringRedisTemplate;
-
-    public RedisServiceImpl(StringRedisTemplate stringRedisTemplate) {
-        this.stringRedisTemplate = stringRedisTemplate;
-    }
 
     @Override
     public void set(String key, String value) {

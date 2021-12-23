@@ -8,6 +8,7 @@ import com.harry.mall.mbg.model.UmsAdmin;
 import com.harry.mall.mbg.model.UmsAdminExample;
 import com.harry.mall.mbg.model.UmsPermission;
 import com.harry.mall.service.UmsAdminService;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UmsAdminServiceImpl implements UmsAdminService {
 
   private static final Logger logger = LogManager.getLogger(UmsAdminServiceImpl.class);
@@ -43,17 +45,6 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
   @Value("${jwt.tokenHead}")
   private String tokenHead;
-
-  public UmsAdminServiceImpl(
-      JwtTokenUtil jwtTokenUtil,
-      PasswordEncoder passwordEncoder,
-      UmsAdminRoleRelationDao adminRoleRelationDao,
-      UmsAdminMapper adminMapper) {
-    this.jwtTokenUtil = jwtTokenUtil;
-    this.passwordEncoder = passwordEncoder;
-    this.adminRoleRelationDao = adminRoleRelationDao;
-    this.adminMapper = adminMapper;
-  }
 
   @Override
   public UmsAdmin getAdminByUserName(String username) {
@@ -75,7 +66,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     UmsAdmin existedAdmin = getAdminByUserName(newAdmin.getUsername());
     if (existedAdmin != null) {
       logger.debug(
-          CommonLog.builder().event("admin username existed").data(newAdmin.getUsername()));
+          CommonLog.builder().event("admin username existed").data(newAdmin.getUsername()).build());
       return null;
     }
     String encodedPassword = passwordEncoder.encode(newAdmin.getPassword());
@@ -90,7 +81,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     try {
       UserDetails userdetails = userDetailsService.loadUserByUsername(username);
       if (!passwordEncoder.matches(password, userdetails.getPassword())) {
-        logger.debug(CommonLog.builder().event("admin password incorrect").data(password));
+        logger.debug(CommonLog.builder().event("admin password incorrect").data(password).build());
         throw new BadCredentialsException("password incorrect");
       }
       UsernamePasswordAuthenticationToken authenticationToken =
@@ -98,7 +89,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
       SecurityContextHolder.getContext().setAuthentication(authenticationToken);
       token = jwtTokenUtil.generateToken(userdetails);
     } catch (AuthenticationException ex) {
-      logger.debug(CommonLog.builder().event("admin login failed"));
+      logger.debug(CommonLog.builder().event("admin login failed").build());
     }
     return token;
   }

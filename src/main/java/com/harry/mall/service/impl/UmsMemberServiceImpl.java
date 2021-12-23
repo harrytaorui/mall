@@ -5,14 +5,14 @@ import com.harry.mall.common.CommonResult;
 import com.harry.mall.common.ResultCode;
 import com.harry.mall.service.RedisService;
 import com.harry.mall.service.UmsMemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
+@RequiredArgsConstructor
 public class UmsMemberServiceImpl implements UmsMemberService {
 
     private RedisService redisService;
@@ -22,10 +22,6 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Value("${redis.key.expire.authCode}")
     private Long AUTH_CODE_EXPIRE_SECONDS;
-
-    public UmsMemberServiceImpl(RedisService redisService) {
-        this.redisService = redisService;
-    }
 
     @Override
     public CommonResult generateAuthCode(String telephone) {

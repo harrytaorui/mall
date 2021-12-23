@@ -9,7 +9,7 @@
 ################################################################################################################
 -->
 
-<Configuration status="DEBUG">
+<Configuration status="WARN">
     <Properties>
         <Property name="log-path">./logs</Property>
         <Property name="logFileName">mall</Property>
@@ -21,9 +21,7 @@
         <RollingFile name="RollingFile"
                      fileName="${log-path}/${logFileName}.log"
                      filePattern="${log-path}/${logFileName}-%d{yyyy-MM-dd}-%i.log">
-            <PatternLayout>
-                <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
-            </PatternLayout>
+            <JsonTemplateLayout eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
             </Policies>
@@ -31,6 +29,8 @@
         </RollingFile>
     </Appenders>
     <Loggers>
+        <Logger name="org.springframework" level="INFO"/>
+        <Logger name="org.mybatis" level="INFO"/>
         <Logger name="com.harry.mall" level="debug" additivity="true">
             <AppenderRef ref="LogToConsole" level="debug" />
         </Logger>

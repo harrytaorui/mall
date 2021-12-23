@@ -40,7 +40,7 @@ public class JwtTokenUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception ex) {
-            logger.error(CommonLog.builder().event("jwt verified failed").data(ex));
+            logger.error(CommonLog.builder().event("jwt verified failed").data(ex).build());
         }
         return claims;
     }
