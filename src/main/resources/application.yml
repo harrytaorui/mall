@@ -61,3 +61,11 @@ mongodb:
   host: localhost
   port: 27017
   database: mall-port
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  virtual-host: /mall
+  username: root
+  password: root
+  publisher-confirms: true

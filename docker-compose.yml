@@ -65,6 +65,19 @@ services:
       - mongodata:/data/db
       - ./logs/mongo/log:/var/log/mongodb
     restart: always
+  rabbit:
+    image: rabbitmq:3.9.11-management
+    container_name: mall-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+      - RABBITMQ_DEFAULT_VHOST=/mall
+    volumes:
+      - ./rabbitmq/data:/var/lib/rabbitmq
+    restart: always
 
 volumes:
   elasticsearch:
